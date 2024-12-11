@@ -22,3 +22,24 @@ Route::get('/blog/{blogId}', function ($blogId) {
     
     return "Blog ID: $blogId, Title: $title, Content: $content";
 });
+
+Route::get('/signin', function () {
+    $data = [
+        'title' => 'Login Page',
+        'error' => session('error')
+    ];
+    return view('signin', $data);
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware('auth');
+
+Route::get('/signin', [UserController::class, 'showSignin']);
+Route::post('/signin', [UserController::class, 'signin']);
+
+Route::get('/signup', [UserController::class, 'showSignup']);
+Route::post('/signup', [UserController::class, 'signup']);
+
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
+Route::get('/logout', [UserController::class, 'logout']);
